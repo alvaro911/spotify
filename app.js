@@ -1,56 +1,58 @@
-var svg = d3.select("svg"),
-    width = svg.attr("width"),
-    height = svg.attr("height");
+(function(){
+  var width=600,
+      height=600;
 
-var format = d3.format(",d");
+  var svg=d3.select('#chart')
+    .append('svg')
+    .attr('height', height)
+    .attr('width', width)
+    .append('g')
+    .attr('transform', 'translate(0,0)')
 
-var pack = d3.pack()
-    .size([width - 2, height - 2])
-    .padding(10);
+    var radiousScale = d3.scaleSqrt().domain([1, 100]).range([0,30])
 
-var url='https://api.spotify.com/v1/search?q=genre:%22rap%20%22&type=artist&limit=50'
+  var url='https://api.spotify.com/v1/search?q=genre:%22rap%20%22&type=artist&limit=50'
 
-d3.json(url, function(error,data){
-  // console.log(data);
-  if(error) throw error;
-  var nodes = d3.hierarchy({artists:data.artists.items})
-        .sum(function(d){return d.popularity});
-  console.log(nodes)
+  var simulation = d3.forceSimulation()
+    .force('x', d3.forceX(width / 2).strength(0.05))
+    .force('y', d3.forceY(height / 2).strength(0.05))
+    .force('collide', d3.forceCollide(function (d){
+      return radiousScale(d.popularity*(Math.random()*2))+5
+    }))
 
-  // var root = d3.hierarchy({children: data})
-  //     .sum(function(d) { return d.value; })
-  //     .sort(function(a, b) { return b.value - a.value; });
-  //
-  // pack(root);
+  d3.queue()
+    .defer(d3.json, url)
+    .await(ready)
 
+  function ready(error, data){
+    if(error) throw error
 
-  // var node = svg.select("g")
-  //   .selectAll("g")
-  //   .data(data.artists.item)
-  //   .enter().append("g")
-  //     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-  //     .attr("class", "node");
-  //
-  // node.append("circle")
-  //     .attr("id", function(d) { return "node-" + d.data.artists.items; })
-  //     .attr("r", function(d) { return d.popularity; });
-  //
-  // node.append("clipPath")
-  //     .attr("id", function(d) { return "clip-" + d.data.artists.items; })
-  //   .append("use")
-  //     .attr("xlink:href", function(d) { return "#node-" + d.data.id + ""; });
-  //
-  // node.append("text")
-  //     .attr("clip-path", function(d) { return "url(#clip-" + d.data.id + ")"; })
-  //   .selectAll("tspan")
-  //     .data(function(d) { return d.data.id.split(".").pop().split(/(?=[A-Z][^A-Z])/g); })
-  //   .enter().append("tspan")
-  //     .attr("x", 0)
-  //     .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
-  //     .text(function(d) { return d; });
-  //
-  // node.append("title")
-  //     .text(function(d) { return d.data.id + "\n" + format(d.value); });
-  //
+    var children = data.artists.items.map(item => {
+      return {
+        name: item.name,
+        popularity: item.popularity,
+      }
+    });
 
-})
+    var circles = svg.selectAll(data.artists.items.popularity)
+      .data(children)
+      .enter().append('circle')
+      .attr('class','node')
+      .attr('r',function (d){
+        return radiousScale(d.popularity*(Math.random()*1))
+      })
+      .attr('fill','rgb(191, 158, 31)')
+
+    simulation.nodes(children).on('tick', ticked)
+
+    function ticked(){
+      circles
+        .attr('cx', function(d){
+          return d.x
+        })
+        .attr('cy',function(d){
+          return d.y
+        })
+    }
+  }
+})()
