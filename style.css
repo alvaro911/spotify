@@ -1,0 +1,13 @@
+text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.node circle {
+  fill: #ddd;
+}
+
+.node:hover circle {
+  stroke: #000;
+  stroke-width: 1.2px;
+}
