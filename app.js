@@ -1,5 +1,5 @@
 (function(){
-  var width=600,
+  var width=960,
       height=600;
 
   var svg=d3.select('#chart')
@@ -9,15 +9,15 @@
     .append('g')
     .attr('transform', 'translate(0,0)')
 
-    var radiousScale = d3.scaleSqrt().domain([1, 100]).range([0,30])
+    var radiousScale = d3.scaleSqrt().domain([1, 100]).range([1,30])
 
-  var url='https://api.spotify.com/v1/search?q=genre:%22rap%20%22&type=artist&limit=50'
+  var url='https://api.spotify.com/v1/search?q=genre:alternativemetal%20year:2009&type=artist&limit=50'
 
   var simulation = d3.forceSimulation()
     .force('x', d3.forceX(width / 2).strength(0.05))
     .force('y', d3.forceY(height / 2).strength(0.05))
     .force('collide', d3.forceCollide(function (d){
-      return radiousScale(d.popularity*(Math.random()*2))+5
+      return radiousScale(d.followers.total)/100
     }))
 
   d3.queue()
@@ -31,6 +31,9 @@
       return {
         name: item.name,
         popularity: item.popularity,
+        id:item.id,
+        images:item.images,
+        followers:item.followers
       }
     });
 
@@ -39,9 +42,12 @@
       .enter().append('circle')
       .attr('class','node')
       .attr('r',function (d){
-        return radiousScale(d.popularity*(Math.random()*1))
+        return radiousScale(d.followers.total)/100
       })
       .attr('fill','rgb(191, 158, 31)')
+      .on('click',function(d){
+        console.log(d)
+      })
 
     simulation.nodes(children).on('tick', ticked)
 
