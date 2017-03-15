@@ -1,13 +1,37 @@
-text {
-  font: 10px sans-serif;
-  text-anchor: middle;
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body, html{
+  margin: 0;
+  padding: 0;
+  background-color: #252328;
 }
 
-.node circle {
-  fill: #ddd;
+*{box-sizing: border-box;}
+
+main{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
 }
 
-.node:hover circle {
-  stroke: #000;
-  stroke-width: 1.2px;
+nav{
+  width: 40%;
+  height: auto;
+  /* padding: 1em; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav button{
+  border: 0;
+  margin: 10px;
+  width: 37%;
+  min-width: 40px;
+  height: 100px;
+  color: white;
+  background-color: #16cd91;
+  cursor: pointer;
 }
