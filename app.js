@@ -2,7 +2,7 @@
   var width=600,
       height=600;
 
-  var svg=d3.select('#chart')
+  var svg = d3.select('#chart')
     .append('svg')
     .attr('height', height)
     .attr('width', width)
@@ -23,6 +23,7 @@
   var inputVals = d3.selectAll('button')
   inputVals.on('click', function(e){
     // e.preventDefault()
+    svg.selectAll("*").remove()
     var genre = this.value
     console.log(genre)
     var url='https://api.spotify.com/v1/search?q=genre:'+genre+'&type=artist&limit=50'
@@ -65,6 +66,12 @@
         return d.images[1].url
       })
 
+    var tool_tip = d3.tip()
+      .attr("class", "d3-tip")
+      .offset([-8, 0])
+      .html(function(d) { return d.name });
+      svg.call(tool_tip);
+
     var circles = svg.selectAll(data.artists.items.popularity)
       .data(children)
       .enter().append('circle')
@@ -75,45 +82,9 @@
       .attr('fill', function(d) {
         return `url(#${d.name.toLowerCase().replace(/ /g, '-')})`
       })
-      // .attr('fill', function(d) {
-      //   if(d.followers.total > 0 && d.followers.total < 100000){
-      //     return '#e74c3c'
-      //   }else if(d.followers.total > 100001 && d.followers.total < 300000){
-      //     return '#9b59b6'
-      //   }else if(d.followers.total > 300001 && d.followers.total < 600000){
-      //     return '#e67e22'
-      //   }else if(d.followers.total > 600001 && d.followers.total < 1000000){
-      //     return '#f1c40f'
-      //   }else if(d.followers.total > 1000001 && d.followers.total < 2000000){
-      //     return '#3498db'
-      //   }else{
-      //     return '#2ecc71'
-      //   }
-      // })
       .on('click',function(d){ console.log(d)})
-      .on('mouseover', function(){
-        tooltip.style('display', null)
-      })
-      .on('mouseout', function(){
-        tooltip.style('display', 'none')
-      })
-      .on('mousemove', function(d){
-        var xPos = d3.mouse(this)[0] - 30,
-            yPos = d3.mouse(this)[1] - 55
-
-        tooltip.attr('transform', `translate(${xPos}, ${yPos})`)
-        tooltip.select('text').text(d.name)
-      })
-
-      var tooltip = svg.append('g')
-        .attr('class', 'artist-pointer')
-        .style('display', 'none')
-
-      tooltip.append('text')
-        .attr('x', 15)
-        .attr('dy', '1.2em')
-        .style('font-size', '1em')
-        .attr('background-color', 'white');
+      .on('mouseover', tool_tip.show)
+      .on('mouseout', tool_tip.hide);
 
     simulation.nodes(children).on('tick', ticked)
 
