@@ -8,6 +8,11 @@ body, html{
 
 *{box-sizing: border-box;}
 
+img{
+  width:100%;
+  height: auto
+}
+
 main{
   width: 100%;
   height: auto;
@@ -15,7 +20,7 @@ main{
   flex-direction: row;
 }
 
-nav{
+.nav{
   width: 8%;
   height: auto;
   display: flex;
@@ -90,4 +95,57 @@ nav button{
 .artist{
   display: none;
   color: white;
+  position: relative;
+  padding: 1em;
+  font-family: 'Roboto';
+  flex-direction: column;
+  width: 100%;
+}
+
+.artist-info{
+  width: 60%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2em;
+}
+
+.artist-img{
+  width: 48%;
+  margin-right: 0 2em 2em;
+}
+
+.artist-info h2{
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.albums{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.album-info{
+  width: 20%;
+  height: auto;
+  margin:0 1em 2em;
+}
+
+.album-img{
+  width: 100%;
+  height: auto;
+}
+
+.album-name{
+  width: 100%;
+  height: 60px;
+  padding: 1em;
+}
+
+.album-name p{
+  margin:0;
 }
