@@ -1,6 +1,7 @@
-(function(){
-  const width=1100,
-      height=600;
+function renderD3(){
+  let chart = document.getElementById('chart')
+  const width = chart.offsetWidth * .8,
+      height = window.innerHeight * 1;
 
   const svg = d3.select('#chart')
     .append('svg')
@@ -19,17 +20,17 @@
       return radiousScale(d.followers.total)/130 +2
     }))
 
-  const inputVals = d3.selectAll('button')
-  inputVals.on('click', function(e){
-    // e.preventDefault()
+  function getArtists(){
     svg.selectAll("*").remove()
     const genre = this.value
     const url=`https://api.spotify.com/v1/search?q=genre:"${genre}"&type=artist&limit=50`
     d3.queue()
     .defer(d3.json, url)
     .await(ready)
+  }
 
-  })
+  const inputVals = d3.selectAll('button')
+  inputVals.on('click', getArtists)
 
   function ready(error, data){
     if(error) throw error
@@ -107,15 +108,19 @@
           }
       })
 
-      const albums = fetch(`https://api.spotify.com/v1/artists/${d.id}/albums`)
+      const albums = fetch(`https://api.spotify.com/v1/artists/${d.id}/albums?limit=50&album_type=album`)
         .then(res => res.json())
         .then(result => {
-          return result.items.map((album)=>{
-            return {
-              albumName: album.name,
-              ablumImage: album.images[1].url
-            }
+          var unique = new Map()
+          result.items.forEach(album =>{
+            unique.set(album.name, album)
           })
+        return Array.from(unique.values()).map((album)=>{
+          return {
+            albumName: album.name,
+            ablumImage: album.images[1].url
+          }
+        })
       })
 
       Promise.all([artist, albums])
@@ -125,7 +130,6 @@
           var result = Object.assign({}, artist, {
             albums: albums
           });
-          console.log(result)
           var artistHTML = document.querySelector('.artist')
 
           const artistInfo =`
@@ -138,6 +142,9 @@
               </div>
             </div>
             <div class="albums"></div>
+            <div class="close">
+              <p>go back</p>
+            </div>
           `
 
           artistHTML.innerHTML = artistInfo
@@ -153,6 +160,11 @@
                 </div>
               </div>
             `
+          })
+          document.querySelector('.close').addEventListener('click',() => {
+            document.getElementById('chart').style.display = 'block'
+            document.querySelector('.artist').style.display = 'none'
+            document.querySelector('.nav').style.display = 'flex'
           })
         })
     }
@@ -177,4 +189,5 @@
         })
     }
   }
-})()
+}
+renderD3()

@@ -10,7 +10,7 @@ body, html{
 
 img{
   width:100%;
-  height: auto
+  height: auto;
 }
 
 main{
@@ -36,6 +36,10 @@ nav button{
   color: white;
   background-color: #16cd91;
   cursor: pointer;
+}
+
+#chart{
+  width: 92%;
 }
 
 .artist-pointer{
@@ -107,12 +111,12 @@ nav button{
   height: auto;
   display: flex;
   flex-direction: row;
-  margin-bottom: 2em;
+  margin: 2em 0;
 }
 
 .artist-img{
   width: 48%;
-  margin-right: 0 2em 2em;
+  margin: 0 2em 2em;
 }
 
 .artist-info h2{
@@ -132,7 +136,9 @@ nav button{
 .album-info{
   width: 20%;
   height: auto;
-  margin:0 1em 2em;
+  margin:0 1em 2.5em;
+  background-color: #bada55;
+  overflow: auto;
 }
 
 .album-img{
@@ -142,10 +148,28 @@ nav button{
 
 .album-name{
   width: 100%;
-  height: 60px;
-  padding: 1em;
+  height: 80px;
+  padding: .5em;
 }
 
 .album-name p{
   margin:0;
+}
+
+.close{
+  position: absolute;
+  width:10%;
+  height: 30px;
+  top:2.5em;
+  right: 2.5em;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+.close p{
+  font-size: .8em;
+  margin: 0;
+  text-align: center;
+  line-height: 2.2;
+  text-transform: uppercase;
 }
