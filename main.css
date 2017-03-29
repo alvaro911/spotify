@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Roboto:300,400');
+
+body, html{
+  margin: 0;
+  padding: 0;
+  /*background-color: black;*/
+  background: url('img/bg.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+img{
+  width: 100%;
+  height: auto;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+a{
+  text-decoration: none;
+}
+
+.title{
+  font-family: 'Fjalla One';
+  margin: 5em auto;
+  width: 36%;
+  height: auto;
+  color: white;
+}
+
+h1{
+  font-size: 4.5em;
+  margin: 0;
+  text-align: center;
+}
+
+h4{
+  font-family: 'Roboto';
+  font-weight: 300;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tagline{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  letter-spacing: 3px;
+  font-size: .8em;
+  color: rgb(187, 187, 187);
+}
+
+.title-icon{
+  width: 8%;
+  height: auto;
+  margin-left: 1em;
+}
+
+.link{
+  width:8%;
+  height: 30px;
+  background-color: #1ed760;
+  position: relative;
+  bottom: 2em;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-family: 'Roboto';
+  justify-content: center;
+}
+
+@media (min-width: 320px) and (max-width: 736px) and (orientation: portrait) {
+  .title{
+    width: 76%;
+  }
+
+  h1{
+    font-size: 2.9em;
+  }
+
+  .tagline{
+    font-size: .7em;
+  }
+
+  .link{
+    width: 16%;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 736px) and (orientation: landscape){
+  .title{
+    width: 44%;
+    margin: 3em auto;
+  }
+
+  h1{
+    font-size: 3.2em;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait){
+  .title{
+    width: 60%;
+    margin: 11em auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape){
+  .title{
+    width: 45%;
+    margin: 8em auto;
+  }
+}

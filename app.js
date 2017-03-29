@@ -1,7 +1,9 @@
 function renderD3(){
   let chart = document.getElementById('chart')
-  const width = chart.offsetWidth * .8,
-      height = window.innerHeight * 1;
+  const width = chart.offsetWidth
+      height = window.innerHeight
+  const MOBILE = 400
+  let saveThisArtist
 
   const svg = d3.select('#chart')
     .append('svg')
@@ -14,23 +16,28 @@ function renderD3(){
 
 
   const simulation = d3.forceSimulation()
-    .force('x', d3.forceX(0).strength(0.15))
-    .force('y', d3.forceY(0).strength(0.75))
+    .force('x', d3.forceX(0).strength(1))
+    .force('y', d3.forceY(0).strength(0.15))
     .force('collide', d3.forceCollide(function (d){
       return radiousScale(d.followers.total)/130 +2
     }))
 
   function getArtists(){
+    console.log('hello')
     svg.selectAll("*").remove()
-    const genre = this.value
-    const url=`https://api.spotify.com/v1/search?q=genre:"${genre}"&type=artist&limit=50`
+    // const genre = this.value
+    // saveThisArtist = this.value
+    const url=`https://api.spotify.com/v1/search?q=genre:"${saveThisArtist}"&type=artist&limit=50`
     d3.queue()
     .defer(d3.json, url)
     .await(ready)
   }
 
   const inputVals = d3.selectAll('button')
-  inputVals.on('click', getArtists)
+  inputVals.on('click', function(){
+    saveThisArtist = this.value
+    getArtists()
+  })
 
   function ready(error, data){
     if(error) throw error
@@ -76,8 +83,8 @@ function renderD3(){
     const tool_tip = d3.tip()
       .attr("class", "d3-tip")
       .offset([0, 0])
-      .html(function(d) { return d.name });
-      svg.call(tool_tip);
+      .html(function(d) { return d.name })
+      svg.call(tool_tip)
 
     const circles = svg.selectAll(data.artists.items.popularity)
       .data(children)
@@ -104,7 +111,8 @@ function renderD3(){
         .then(result => {
           return {
             artistName:result.name,
-            artistImage:result.images[1].url
+            artistImage:result.images[0].url,
+            artistFollowers:result.followers.total
           }
       })
 
@@ -137,10 +145,13 @@ function renderD3(){
               <div class="artist-img">
                 <img src="${result.artistImage}">
               </div>
-              <div>
+              <div class="artist-label">
                 <h2>${result.artistName}</h2>
+                <h3>Followers: ${result.artistFollowers}</h3>
               </div>
             </div>
+            <h2 class="header">Albums</h2>
+            <span></span>
             <div class="albums"></div>
             <div class="close">
               <p>go back</p>
@@ -179,15 +190,46 @@ function renderD3(){
 
     simulation.nodes(children).on('tick', ticked)
 
+    let resizeTimer
+
+    // window.addEventListener('resize', () => {
+    //   clearTimeout(resizeTimer)
+    //   resizeTimer = setTimeout(getArtists, 1000)
+    // })
+
     function ticked(){
+      // debugger
       circles
         .attr('cx', function(d){
-          return d.x
+          if(width > MOBILE){
+            return d.x
+          }
+          else {
+            return d.y
+          }
         })
         .attr('cy',function(d){
-          return d.y
+          if(width > MOBILE){
+            return d.y
+          }
+          else {
+            return d.x
+          }
         })
     }
   }
 }
 renderD3()
+
+$(document).ready(() => {
+  if(window.innerWidth < 737){
+    $('.menu').on('click', () => {
+      $('nav').show('slide', {direction: 'left'}, 250)
+    })
+
+    $('.nav button').on('click', () => {
+      $('nav').hide('slide', {direction: 'left'}, 250)
+    })
+  }
+
+})
