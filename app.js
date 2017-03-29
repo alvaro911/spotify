@@ -1,3 +1,5 @@
+let resizeTimer
+
 function renderD3(){
   let chart = document.getElementById('chart')
   const width = chart.offsetWidth
@@ -190,12 +192,10 @@ function renderD3(){
 
     simulation.nodes(children).on('tick', ticked)
 
-    let resizeTimer
-
-    // window.addEventListener('resize', () => {
-    //   clearTimeout(resizeTimer)
-    //   resizeTimer = setTimeout(getArtists, 1000)
-    // })
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(getArtists, 1000)
+    })
 
     function ticked(){
       // debugger
