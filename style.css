@@ -70,29 +70,19 @@ nav button:hover{
   justify-content: center;
 }
 
-.artist-pointer{
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  fill: rgba(255, 255, 255, 0.8);
-  color: black;
-  border-radius: 2px;
-  width:100px;
-  height: 100px
+.node{
+  stroke: #16cd91;
+  stroke-width:0;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease;
 }
 
-.artist-pointer::after{
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
+.node:hover{
+  stroke-width:2;
 }
-
 
 .d3-tip {
   line-height: 1;
@@ -101,7 +91,12 @@ nav button:hover{
   color: #ee12cb;
   border-radius: 4px;
   font-size: 1em;
-  font-family: 'Roboto'
+  font-family: 'Roboto';
+  text-align: center;
+}
+
+.d3-tip b{
+  font-size: 1.3em
 }
 
 /* Creates a small triangle extender for the tooltip */

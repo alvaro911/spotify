@@ -16,14 +16,14 @@ function renderD3(){
     .append('g')
     .attr('transform', `translate(${width/2},${height/2})`)
 
-  const radiousScale = d3.scaleSqrt().domain([1, 100]).range([1,30])
+  const radiousScale = d3.scaleSqrt().domain([10, 100]).range([10,30])
 
 
   const simulation = d3.forceSimulation()
     .force('x', d3.forceX(0).strength(1))
     .force('y', d3.forceY(0).strength(0.15))
     .force('collide', d3.forceCollide(function (d){
-      return radiousScale(d.followers.total)/130 +2
+      return radiousScale(d.followers.total)/130
     }))
 
   function getArtists(){
@@ -31,8 +31,6 @@ function renderD3(){
       .attr('width', chart.offsetWidth)
       .attr('transform', `translate(${chart.offsetWidth/2},${window.innerHeight/2})`)
       .selectAll("*").remove()
-    // const genre = this.value
-    // saveThisArtist = this.value
     const url=`https://api.spotify.com/v1/search?q=genre:"${saveThisArtist}"&type=artist&limit=50`
     d3.queue()
     .defer(d3.json, url)
@@ -89,7 +87,14 @@ function renderD3(){
     const tool_tip = d3.tip()
       .attr("class", "d3-tip")
       .offset([0, 0])
-      .html(function(d) { return d.name })
+      .html(function(d) { return `
+        <p>
+          <b>${d.name}</b>
+          <br>
+          <br>
+          Followers: ${d.followers.total}
+        </p>
+        `  })
       svg.call(tool_tip)
 
     const circles = svg.selectAll(data.artists.items.popularity)
@@ -196,7 +201,12 @@ function renderD3(){
     aniCircles.transition()
       .duration(2000)
       .attr('r',function (d){
-        return radiousScale(d.followers.total)/130
+        if(d.followers.total < 200000){
+          console.log('hello')
+          return 10
+        }else{
+          return radiousScale(d.followers.total)/130
+        }
       })
 
     simulation.nodes(children).on('tick', ticked)
