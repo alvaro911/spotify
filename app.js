@@ -6,7 +6,7 @@ function renderD3(){
   let chart = document.getElementById('chart')
   width = chart.offsetWidth
   height = window.innerHeight
-  const MOBILE = 400
+  const MOBILE = 737
   let saveThisArtist
 
   const svg = d3.select('#chart')
@@ -181,7 +181,12 @@ function renderD3(){
           document.querySelector('.close').addEventListener('click',() => {
             document.getElementById('chart').style.display = 'block'
             document.querySelector('.artist').style.display = 'none'
-            document.querySelector('.nav').style.display = 'flex'
+            if(width < MOBILE){
+              document.querySelector('.nav').style.display = 'none'
+            }
+            else{
+              document.querySelector('.nav').style.display = 'flex'
+            }
           })
         })
     }

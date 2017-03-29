@@ -62,13 +62,21 @@ h4{
   margin-left: 1em;
 }
 
+.instruction{
+  width: 50%;
+  color: white;
+  font-family: 'Roboto';
+  line-height: 2;
+  height: auto;
+  margin: 1em auto
+}
+
 .link{
   width:8%;
   height: 30px;
   background-color: #1ed760;
-  position: relative;
   bottom: 2em;
-  margin: 0 auto;
+  margin: 13em auto 0;
   display: flex;
   align-items: center;
   color: white;
@@ -91,17 +99,26 @@ h4{
 
   .link{
     width: 16%;
+    margin-top: 3em
   }
 }
 
 @media (min-width: 320px) and (max-width: 736px) and (orientation: landscape){
   .title{
     width: 44%;
-    margin: 3em auto;
+    margin: 1em auto;
   }
 
   h1{
     font-size: 3.2em;
+  }
+
+  .instruction{
+    width: 92%;
+  }
+
+  .link{
+    margin-top: 2em;
   }
 }
 
