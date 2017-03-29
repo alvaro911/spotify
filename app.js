@@ -1,9 +1,11 @@
 let resizeTimer
+let width
+let height
 
 function renderD3(){
   let chart = document.getElementById('chart')
-  const width = chart.offsetWidth
-      height = window.innerHeight
+  width = chart.offsetWidth
+  height = window.innerHeight
   const MOBILE = 400
   let saveThisArtist
 
@@ -25,8 +27,10 @@ function renderD3(){
     }))
 
   function getArtists(){
-    console.log('hello')
-    svg.selectAll("*").remove()
+    svg.attr('height', window.innerHeight)
+      .attr('width', chart.offsetWidth)
+      .attr('transform', `translate(${chart.offsetWidth/2},${window.innerHeight/2})`)
+      .selectAll("*").remove()
     // const genre = this.value
     // saveThisArtist = this.value
     const url=`https://api.spotify.com/v1/search?q=genre:"${saveThisArtist}"&type=artist&limit=50`
@@ -194,14 +198,13 @@ function renderD3(){
 
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(getArtists, 1000)
+      resizeTimer = setTimeout(getArtists, 500)
     })
 
     function ticked(){
-      // debugger
       circles
         .attr('cx', function(d){
-          if(width > MOBILE){
+          if(chart.offsetWidth > MOBILE){
             return d.x
           }
           else {
@@ -209,7 +212,7 @@ function renderD3(){
           }
         })
         .attr('cy',function(d){
-          if(width > MOBILE){
+          if(chart.offsetWidth > MOBILE){
             return d.y
           }
           else {
