@@ -1,4 +1,4 @@
-##PopArt
+## PopArt
 This application will show how popular artists are depending on the amount of followers they have.
 
 ![alt tag](https://cloud.githubusercontent.com/assets/12722575/24469560/17a1a7c4-1479-11e7-8603-708104ceb037.png)
@@ -15,6 +15,6 @@ Once the user clicks the bubble a new screen will show a bigger picture of the a
 
 ![alt tag](https://cloud.githubusercontent.com/assets/12722575/24469990/9a9900f4-147a-11e7-8055-743018e2cab8.png)
 
-#Technologies used
+## Technologies used
 
 For this project I used HTML, CSS, D3 and jQuery
