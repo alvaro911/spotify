@@ -112,8 +112,12 @@ function renderD3(){
         document.querySelector('.nav').style.display = 'none'
         artistInfo(d)
       })
-      .on('mouseover', tool_tip.show)
-      .on('mouseout', tool_tip.hide)
+
+    if(width > 1024 ){
+      circles
+        .on('mouseover', tool_tip.show)
+        .on('mouseout', tool_tip.hide)
+    }
 
     function artistInfo(d){
       // this is for artists
