@@ -33,10 +33,26 @@ a{
   color: white;
 }
 
+.bubbles {
+  display: inline-block;
+  position: relative;
+}
+
+.individual-bubble {
+  position: absolute;
+  border-radius: 100%;
+  bottom: 10px;
+  background-color: #fff;
+  z-index: 1;
+}
+
 h1{
   font-size: 4.5em;
   margin: 0;
   text-align: center;
+  letter-spacing: 7px;
+  position: relative;
+  z-index: 2;
 }
 
 h4{

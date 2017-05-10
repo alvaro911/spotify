@@ -49,7 +49,6 @@ function renderD3(){
     const children = data.artists.items.map(item => {
       return {
         name: item.name,
-        popularity: item.popularity,
         id:item.id,
         images:item.images,
         followers:item.followers
@@ -97,7 +96,7 @@ function renderD3(){
         `  })
       svg.call(tool_tip)
 
-    const circles = svg.selectAll(data.artists.items.popularity)
+    const circles = svg.selectAll(data.artists.items.name)
       .data(children)
       .enter().append('circle')
       .attr('class','node')
