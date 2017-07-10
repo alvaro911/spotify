@@ -1,0 +1,21 @@
+{
+  "name": "spotify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/alvaro911/spotify.git",
+  "author": "alvaro911 <algp232@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "consolidate": "^0.14.5",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "http-status": "^1.0.1",
+    "method-override": "^2.3.9",
+    "passport": "^0.3.2",
+    "passport-spotify": "^0.3.1",
+    "swig": "^1.4.2",
+    "unirest": "^0.5.1"
+  }
+}

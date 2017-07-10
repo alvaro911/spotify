@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Spotify bubble graph</title>
+    <!-- <link rel="stylesheet" href="../main.css"> -->
+  </head>
+  <body>
+    {% if !user %}
+      <nav>
+        <p>
+          <a href="/">Home</a> |
+          <a href="/login">Log In</a>
+        </p>
+      </nav>
+    {% else %}
+      <nav>
+        <p>
+          <a href="/">Home</a> |
+          <a href="/account">Account</a> |
+          <a href="/logout">Log Out</a>
+        </p>
+      </nav>
+    {% endif %}
+    {% block content %}
+  </body>
+</html>
