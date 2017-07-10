@@ -16,6 +16,7 @@ const PORT = 3030;
 //SPOTIFY KEYS
 const appKey = '39755b9ae9ee43468e048e5a3e0ac3d9';
 const appSecret = 'b248cd5e3e484182b38b31c7bfff3223';
+let token = ''
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -32,6 +33,7 @@ passport.use(new SpotifyStrategy({
   },
   (accessToken, refreshToken, profile, done) => {
     process.nextTick(function () {
+      token = accessToken;
       return done(null, profile);
     });
   }
@@ -64,7 +66,7 @@ app.get('/auth/spotify',
     }
   ),
   (req, res) => {
-
+    console.log('==================', res.body);
   }
 );
 
@@ -92,33 +94,23 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 });
 
 const getGenreRes = (genre) => {
-  const emitter = events.EventEmitter();
-  unirest.get(`https://api.spotify.com/v1/search?q=genre:"${genre}"&type=artist&limit=50`)
+  const emitter = new events.EventEmitter();
+  console.log('========== TOKEN', token);
+  unirest.get(`https://api.spotify.com/v1/search?q="${genre}"&type=artist&limit=50`)
     .header('Accept', 'application/json')
+    .header('Authorization', `Bearer ${token}`)
     .end((res) => {
-      if(res.ok){
+      if(res.ok) {
         emitter.emit('end', res.body)
-        unirest.get(`https://api.spotify.com/v1/search?q=genre:"${genre}"&type=artist&limit=50`)
-        .header('Accept', 'application/json')
-        .header('Authorization', res.body)
-        .end(res => {
-          if(res.ok){
-            emitter.emit('end', res.body)
-          }
-          else {
-              emitter.emit('error', result.status);
-          }
-          console.log(res.status, res.headers, res.body);
-        })
       }
       else {
-        emitter.emit('error', res.status)
+        emitter.emit('error', res.code);
       }
     })
   return emitter;
 }
 
-app.get('/search/:genre', ensureAuthenticated, (req, res) => {
+app.get('/genre/:genre', ensureAuthenticated, (req, res) => {
   const searchReq = getGenreRes(req.params.genre)
 
   searchReq.on('end', item => {
@@ -137,57 +129,3 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-
-
-//////
-//////
-//////
-// unirest.get("https://community-bart.p.mashape.com/sched.aspx?cmd=depart&b=0&a=4&dest=" + cityNameDestination + "&orig=" + cityNameOrigin + "&json=y ")
-//         .header("X-Mashape-Key", "poOJuuOnJ6mshQZP2u4lJ6vdAISUp1ob0hnjsnif57TGxBXMwj")
-//         //        .header("Accept", "text/plain")
-//         .header("Accept", "application/json")
-//         .header('Authorization', 'Bearer ')
-
-
-
-
-
-
-
-
-        // unirest.get("https://community-bart.p.mashape.com/sched.aspx?cmd=depart&b=0&a=4&dest=" + cityNameDestination + "&orig=" + cityNameOrigin + "&json=y ")
-        // .header("X-Mashape-Key", "poOJuuOnJ6mshQZP2u4lJ6vdAISUp1ob0hnjsnif57TGxBXMwj")
-        // //        .header("Accept", "text/plain")
-        // .header("Accept", "application/json")
-        // .end(function (result) {
-        //
-        //     //console.log(result.status, result.headers, result.body);
-        //     //success scenario
-        //     if (result.ok) {
-        //         emitter.emit('end', result.body);
-        //         unirest.get("https://community-bart.p.mashape.com/sched.aspx?cmd=depart&b=0&a=4&dest=" + cityNameDestination + "&orig=" + cityNameOrigin + "&json=y ")
-        //         .header("X-Mashape-Key", "poOJuuOnJ6mshQZP2u4lJ6vdAISUp1ob0hnjsnif57TGxBXMwj")
-        //         //        .header("Accept", "text/plain")
-        //         .header("Accept", "application/json")
-        //         .end(function (result) {
-        //
-        //             //console.log(result.status, result.headers, result.body);
-        //             //success scenario
-        //             if (result.ok) {
-        //                 emitter.emit('end', result.body);
-        //             }
-        //             //failure scenario
-        //             else {
-        //                 emitter.emit('error', result.status);
-        //             }
-        //             console.log(result.status, result.headers, result.body);
-        //         });
-        //     }
-        //     //failure scenario
-        //     else {
-        //         emitter.emit('error', result.status);
-        //     }
-        //     console.log(result.status, result.headers, result.body);
-        // });

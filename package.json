@@ -6,6 +6,7 @@
   "author": "alvaro911 <algp232@hotmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "consolidate": "^0.14.5",
     "cookie-parser": "^1.4.3",
